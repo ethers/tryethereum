@@ -14,13 +14,13 @@ var util = (function() {
         var binaryForCryptoJs = CryptoJS.enc.Latin1.parse(Bitcoin.convert.bytesToString(bytes));
 
         var addr = util.sha3(binaryForCryptoJs);
-        return addr.toString().substr(24);    
+        return addr.toString().substr(24);
     }
-    
+
     function decodeHex(s) {
         return s ? Bitcoin.convert.bytesToString(Bitcoin.convert.hexToBytes(s)) : '';
     }
-    
+
     function encodeHex(s) {
         return Bitcoin.convert.bytesToHex(Bitcoin.convert.stringToBytes(s));
     }
@@ -37,20 +37,17 @@ var util = (function() {
     function coerce_addr_to_bin(x) {
         // TODO isNumber case?
         if (x instanceof Bitcoin.BigInteger) {
-//            console.log('coerce_addr_to_bin A');
             return encodeHex(zpad(intToBigEndian(x), 20));
         }
         else if (x.length === 40 || x.length === 0) {
-//            console.log('coerce_addr_to_bin B');
             return decodeHex(x);
         }
         else {
-//            console.log('coerce_addr_to_bin C');
             return zpad(x, 20).slice(-20);
         }
     }
-        
-    // bi is BigInteger    
+
+    // bi is BigInteger
     function intToBigEndian(bi) {
         // 0 is a special case, treated same as ''
         if (bi.equals(Bitcoin.BigInteger.ZERO)) {
@@ -62,14 +59,14 @@ var util = (function() {
         }
         return decodeHex(s);
     }
-    
+
     function bigEndianToInt(string) {
         // convert a big endian binary string to BigInteger
         // '' is a special case, treated same as 0
         string = string || '\x00';
         var s = encodeHex(string);
         return Bitcoin.BigInteger.fromHex(s);
-    }    
+    }
 
     function bigInt(n) {
         return Bitcoin.BigInteger.fromHex(
@@ -77,7 +74,7 @@ var util = (function() {
             Bitcoin.convert.bytesToHex(
             Bitcoin.convert.numToBytes(n))));
     }
-    
+
     return {
         sha3: sha3,
         privToAddr: privToAddr,
