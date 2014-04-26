@@ -62,24 +62,14 @@ function TryEthereumCtrl($scope,$http) {
         
         var tx = transaction.mktx(
             util.bigInt(nonce),
-            util.bigInt(value), to, datahex.data);
-        
-        console.log('mktx: ', tx);
+            util.bigInt(value), to, datahex.data);       
+        //console.log('mktx: ', tx);
 
         var parsedTx = transaction.parse(util.decodeHex(tx));
-        console.log('parsedTx: ', parsedTx);
+        //console.log('parsedTx: ', parsedTx);
 
         var signedTx = transaction.sign(parsedTx, key);        
-        console.log('signedTx: ', signedTx);
-        
-//        window.stx = signedTx       
-//        return
-        
-//        $http.get('/pyethtool/sign?0='+tx+'&1='+key)
-//            .then(function(signedTx) {
-//                 console.log(signedTx.data)
-//             },$scope.errlogger)
-//        return
+        //console.log('signedTx: ', signedTx);
 
         $http.post('/applytx',{ data: signedTx })
              .then(function(r) {
