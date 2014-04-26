@@ -28,7 +28,6 @@ var transaction = (function() {
                            encode_int(tx.r),
                            encode_int(tx.s)];
         var forRlp = isSigned ? _.take(arr, 9) : _.take(arr, 6);
-        console.log('forRlp: ', forRlp);
         return rlp.encode(forRlp);
     }
 
@@ -69,15 +68,11 @@ var transaction = (function() {
 
         var iVal = my_calcPubkeyRecoveryParam(ecKey,
                         parsedSig.r, parsedSig.s, rawhash);
-        console.log('iVal: ', iVal);
 
         tx.v = util.bigInt(27 + iVal);  // i%2 like in main.py ?
         tx.r = parsedSig.r;
         tx.s = parsedSig.s
         tx.sender = util.privToAddr(key);
-        console.log('signed tx: ', tx);
-
-        window.tx = tx;
 
         return tx;
     }
